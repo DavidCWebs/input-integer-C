@@ -5,8 +5,8 @@ Learning notes and exercises on integer input in C.
 There are probably lots of better ways to achieve this!
 
 
-Objective: get an integer input from stdin.
-
+Objective: Get an Integer From Stdin
+------------------------------------
 At first glance, `scanf()` looks like a reasonable way to collect integer input. The function allows formatted input to be collected (it's name comes from the words "scan formatted").
 
 To scan integer input, first declare an integer and pass a pointer to this to scanf:
