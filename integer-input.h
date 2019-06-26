@@ -26,44 +26,69 @@ void getIntegerFromStdin(int *inputInteger)
 	char *inputBuffer = malloc(sizeof(char) * MAX_DIGITS);
 	memset(inputBuffer, 0, MAX_DIGITS);
 	char *input = NULL;
-	*inputInteger = -1;
-
-	while(input == NULL || *inputInteger == -1) {
+	while (input == NULL) {
 		// Note that fgets returns inputBuffer on success.
-		// This becomes important when freeing - free(input) only
-		// to avoid an attempted double-free error.
+		// This becomes important when freeing - free either `input` or
+		// `inputBuffer` to avoid an attempted double-free error.
 		input = fgets(inputBuffer, MAX_DIGITS, stdin);
 		
 		// If fgets() receives less than MAX_DIGITS, the last char in the array is '\n'.
-		// If the last char is not '\n', too many characters were entered.
-		if(inputBuffer[strlen(inputBuffer) - 1] != '\n') {
+		// Therefore if the last char is not '\n', too many characters were entered.
+		if (inputBuffer[strlen(inputBuffer) - 1] != '\n') {
 			fprintf(stderr, "[ERROR]: Too many characters: max input is %d chars.\n", MAX_DIGITS);
-			// Clear input buffer - or else it will contain "remainder" chars -
-			// the chars entered after the MAX_DIGITS amount of chars
-			// have been entered. 
 			ClearInputBuffer();
 			input = NULL;
 			continue;
 		}
-		// Check we can intepret input as an integer
 
-		// Convert to integer
+		// Check that the input can be intepreted as an integer
+
+		// Convert to integer using `strtol()`
 		errno = 0;
 		char *endptr = NULL;
 		*inputInteger = strtol(input, &endptr, 10);
 		if (input == endptr) {
-			// Remove trailing newline
+			// Remove trailing newline by adding NUL at the index of the
+			// terminating '\n' character. See man strcspn - this function
+			// gets the length of a prefix substring.
 			input[strcspn(input, "\n")] = 0;
 			printf("Invalid input: no integer found in %s.\n", input);
-			*inputInteger = -1;
+			input = NULL;
 		}
 		if (errno != 0) {
 			fprintf(stderr, "[ERROR]: That doesn't look like an integer.\n");
-			*inputInteger = -1;
+			input = NULL;
 		}
 	}
-	// Free input, which is a pointer to the originally malloc'd inputBuffer
-	free(input);
+	free(inputBuffer);
+}
+
+int getIntScanf(int maxDigits)
+{
+	char check1[maxDigits], check2[maxDigits];
+	int input;
+
+	do {
+		puts("Enter int: ");
+		scanf(" %s", check1);
+		input = strtol(check1, NULL, 10);
+		sprintf(check2, "%d", input);
+	} while (!(strcmp(check1, check2) == 0 && 0 < input && input < 24));
+	return input;
+}
+
+void simpleInt(int *inputInteger)
+{
+	char *p, s[MAX_DIGITS];
+	//	int n;
+
+	while (fgets(s, sizeof(s), stdin)) {
+		*inputInteger = strtol(s, &p, 10);
+		if (p == s || *p != '\n') {
+			printf("Enter an int: ");
+		} else break;
+	}
+	//	return n;
 }
 
 #endif
