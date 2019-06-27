@@ -63,32 +63,50 @@ void getIntegerFromStdin(int *inputInteger)
 	free(inputBuffer);
 }
 
+/**
+ * Alternative example using `scanf()` with some crude checking
+ *
+ * */
+
 int getIntScanf(int maxDigits)
 {
 	char check1[maxDigits], check2[maxDigits];
 	int input;
-
 	do {
 		puts("Enter int: ");
+		// Save stdin into a char array `check1`
 		scanf(" %s", check1);
+		// Convert to an int
 		input = strtol(check1, NULL, 10);
+		// For checking purposes, convert the saved int into a string
 		sprintf(check2, "%d", input);
-	} while (!(strcmp(check1, check2) == 0 && 0 < input && input < 24));
+	// Loop while the string from the int doesn't match the input,
+	// or if input is not greater than 0
+	} while (!(strcmp(check1, check2) == 0 && 0 < input));
 	return input;
 }
 
+/**
+ * Simple example using `fgets()` and `strtol()` with minimal feedback
+ * and error checking.
+ *
+ * Writes to an integer pointer rather than returning an int.
+ * */
 void simpleInt(int *inputInteger)
 {
-	char *p, s[MAX_DIGITS];
-	//	int n;
-
-	while (fgets(s, sizeof(s), stdin)) {
+	char *p;
+	char s[MAX_DIGITS];
+	while (fgets(s, MAX_DIGITS, stdin)) {
 		*inputInteger = strtol(s, &p, 10);
 		if (p == s || *p != '\n') {
+			// Error reporting here is not granular. Either the input
+			// could not be interpreted as an integer by `strtol()`
+			// or the input was too long.
 			printf("Enter an int: ");
 		} else break;
 	}
-	//	return n;
+	// Remove trailing newline
+//	*(inputInteger + strcspn(s, "\n")) = 0;
 }
 
 #endif

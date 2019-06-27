@@ -3,12 +3,18 @@
 
 int main()
 {
-	puts("Enter integer:");
-	int x;
+	int x, y, z;
+
+	puts("simpleInt() enter integer:");
 	simpleInt(&x);
-//	getIntegerFromStdin(&x);
 	printf("You entered: %d\n", x);
-//	int foo = getIntScanf(12);
-//	printf("foo is %d\n", foo);
+
+	puts("getIntegerFromStdin() enter integer:");
+	getIntegerFromStdin(&y);
+	printf("You entered: %d\n", y);
+	
+	
+	z = getIntScanf(12);
+	printf("You entered: %d\n", z);
 	return 0;
 }
