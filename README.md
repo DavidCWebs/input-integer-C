@@ -1,8 +1,15 @@
 Integer Input on Stdin in C
 ===========================
-Learning notes and exercises on integer input in C.
 
-There are probably lots of better ways to achieve this!
+To include the header file in your project, run:
+
+```bash
+wget https://raw.githubusercontent.com/csknk/input-integer-C/master/include/integer-input.h
+```
+[View the file before downloading][6]
+
+
+Learning notes and exercises on integer input in C.
 
 Objective: Get an Integer From Stdin
 ------------------------------------
@@ -81,3 +88,4 @@ References
 [3]: http://c-faq.com/stdio/scanfprobs.html
 [4]: http://c-faq.com/stdio/scanfhang.html
 [5]: https://stackoverflow.com/a/26583890/3590673
+[6]: https://github.com/csknk/input-integer-C/blob/master/include/integer-input.h
